@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Grade Calculator - Calculate What Score You Need on Your Final Exam</title>
+    <meta name="description" content="Free final grade calculator to determine what score you need on your final exam to achieve your target grade. Supports letter grades, weighted assignments, and GPA calculation.">
+    <meta name="keywords" content="final grade calculator, final exam calculator, grade calculator, GPA calculator, what do I need on my final, final exam score calculator, college grade calculator, semester grade calculator">
+    <meta name="author" content="Final Grade Calculator">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Final Grade Calculator - Calculate Your Needed Final Exam Score">
+    <meta property="og:description" content="Free online calculator to determine what score you need on your final exam to achieve your target grade. Easy to use with support for weighted grades.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yoursite.com">
+    <meta property="og:image" content="https://yoursite.com/calculator-preview.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Final Grade Calculator - Free Grade Calculator Tool">
+    <meta name="twitter:description" content="Calculate what score you need on your final exam to reach your target grade. Free, easy-to-use grade calculator.">
+    <meta name="twitter:image" content="https://yoursite.com/calculator-preview.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://yoursite.com/">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Final Grade Calculator",
+      "description": "Free online calculator to determine what score you need on your final exam to achieve your target grade",
+      "url": "https://yoursite.com",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Final Grade Calculator"
+      }
+    }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        /* Header SEO Content */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        .assignment-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+            margin-bottom: 12px;
+        }
+
+        .assignment-row input {
+            margin: 0;
+        }
+
+        .remove-btn {
+            background: #ff3b30;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn:hover {
+            background: #d70015;
+        }
+
+        .add-btn {
+            background: #34c759;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .add-btn:hover {
+            background: #248a3d;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 32px 0;
+        }
+
+        .calculate-btn:hover {
+            background: #0056CC;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+            padding: 24px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 4px solid #007AFF;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 700;
+            margin: 16px 0;
+            color: #007AFF;
+        }
+
+        .result-message {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .result.success .result-score {
+            color: #34c759;
+        }
+
+        .result.warning .result-score {
+            color: #ff9500;
+        }
+
+        .result.error .result-score {
+            color: #ff3b30;
+        }
+
+        .assignment-headers {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .assignment-headers div:last-child {
+            width: 32px;
+        }
+
+        /* SEO Content Styles */
+        .seo-content {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .seo-content h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid #007AFF;
+            padding-bottom: 5px;
+        }
+
+        .seo-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .seo-content h3 {
+            color: #444;
+            font-size: 18px;
+            margin: 20px 0 10px 0;
+        }
+
+        .seo-content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .seo-content ol, .seo-content ul {
+            margin: 15px 0 15px 30px;
+            line-height: 1.6;
+        }
+
+        .seo-content li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .seo-content strong {
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px;
+                margin: 10px;
+            }
+
+            .assignment-row,
+            .assignment-headers {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .assignment-headers {
+                display: none;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .remove-btn {
+                width: 100%;
+                height: 40px;
+                margin-top: 8px;
+            }
+
+            .seo-content {
+                padding: 20px;
+                margin-top: 30px;
+            }
+
+            .seo-content h2 {
+                font-size: 20px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SEO Optimized Header -->
+        <header>
+            <h1>Final Grade Calculator</h1>
+        </header>
+
+        <div class="section">
+            <div class="section-title">Your Current Grades</div>
+            
+            <div class="assignment-headers">
+                <div>Assignment Name</div>
+                <div>Score (%)</div>
+                <div>Weight (%)</div>
+                <div></div>
+            </div>
+            
+            <div id="assignments">
+                <div class="assignment-row">
+                    <input type="text" placeholder="Midterm Exam" class="assignment-name">
+                    <input type="number" placeholder="78" class="assignment-score" min="0" max="100">
+                    <input type="number" placeholder="40" class="assignment-weight" min="0" max="100">
+                    <button onclick="removeAssignment(this)" class="remove-btn">×</button>
+                </div>
+            </div>
+            
+            <button class="add-btn" onclick="addAssignment()">+ Add Assignment</button>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Target & Final Exam</div>
+            <div class="two-col">
+                <div class="input-group">
+                    <label>Target Grade (%)</label>
+                    <input type="number" id="targetGrade" placeholder="85" min="0" max="100">
+                </div>
+                <div class="input-group">
+                    <label>Final Exam Weight (%)</label>
+                    <input type="number" id="finalWeight" placeholder="35" min="0" max="100">
+                </div>
+            </div>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateFinalGrade()">Calculate</button>
+
+        <div class="result" id="result">
+            <div>You need to score:</div>
+            <div class="result-score" id="scoreDisplay">--</div>
+            <div class="result-message" id="resultMessage"></div>
+        </div>
+
+        <!-- SEO Content Section -->
+        <main class="seo-content">
+            <section>
+                <h2>How to Use the Final Grade Calculator</h2>
+                <p>This <strong>final grade calculator</strong> helps students determine what score they need on their final exam to achieve their desired grade in the course. Simply enter your current assignments, their grades, and weights, then specify your target final grade and the weight of your final exam.</p>
+                
+                <h3>Step-by-Step Instructions:</h3>
+                <ol>
+                    <li>Enter your completed assignments in the table above</li>
+                    <li>Input each assignment's grade as a percentage (0-100)</li>
+                    <li>Add the weight percentage for each assignment</li>
+                    <li>Set your target final grade goal</li>
+                    <li>Enter the weight of your final exam</li>
+                    <li>Click "Calculate" to see your required score</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Features of Our Grade Calculator</h2>
+                <ul>
+                    <li><strong>Simple Interface:</strong> Clean, easy-to-use design for quick calculations</li>
+                    <li><strong>Weighted Calculations:</strong> Accurately handles weighted assignments and exams</li>
+                    <li><strong>Multiple Assignments:</strong> Add as many assignments as needed</li>
+                    <li><strong>Real-time Results:</strong> Instant calculation of required final exam scores</li>
+                    <li><strong>Mobile Friendly:</strong> Works perfectly on phones, tablets, and computers</li>
+                    <li><strong>Free to Use:</strong> No registration or payment required</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Understanding Your Final Exam Score</h2>
+                <h3>What if I need more than 100% on my final?</h3>
+                <p>If the calculator shows you need more than 100% on your final exam, it means your target grade is mathematically impossible with the current assignment weights. Consider speaking with your instructor about extra credit opportunities or adjusting your target grade.</p>
+                
+                <h3>How accurate is this final exam calculator?</h3>
+                <p>Our <strong>final exam calculator</strong> uses standard weighted average formulas used by most educational institutions. The calculation is: (Target Grade - Current Weighted Points) ÷ (Final Exam Weight ÷ 100). However, always verify with your course syllabus as some instructors may use different grading methods.</p>
+                
+                <h3>Tips for Final Exam Success</h3>
+                <ul>
+                    <li>Use this calculator early in the semester to set realistic goals</li>
+                    <li>Focus your study time on areas that will have the biggest impact</li>
+                    <li>Consider the difficulty of achieving your required score</li>
+                    <li>Plan extra study time if you need a high score on the final</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Common Grade Calculation Scenarios</h2>
+                <h3>Semester Grade Planning</h3>
+                <p>Use this <strong>semester grade calculator</strong> throughout the term to track your progress. Input grades as you receive them to see how your target final exam score changes.</p>
+                
+                <h3>College Grade Calculator</h3>
+                <p>Perfect for college students managing multiple weighted assignments, quizzes, midterms, and final exams. Most college courses use weighted grading systems that this calculator handles accurately.</p>
+                
+                <h3>High School Grade Calculator</h3>
+                <p>High school students can use this tool for semester courses, AP classes, or any course with a final exam component. Great for planning study schedules and setting realistic academic goals.</p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function addAssignment() {
+            const assignmentsDiv = document.getElementById('assignments');
+            const newAssignment = document.createElement('div');
+            newAssignment.className = 'assignment-row';
+            newAssignment.innerHTML = `
+                <input type="text" placeholder="Assignment name" class="assignment-name">
+                <input type="number" placeholder="Score" class="assignment-score" min="0" max="100">
+                <input type="number" placeholder="Weight" class="assignment-weight" min="0" max="100">
+                <button onclick="removeAssignment(this)" class="remove-btn">×</button>
+            `;
+            assignmentsDiv.appendChild(newAssignment);
+        }
+
+        function removeAssignment(button) {
+            const assignmentsDiv = document.getElementById('assignments');
+            if (assignmentsDiv.children.length > 1) {
+                button.parentElement.remove();
+            }
+        }
+
+        function calculateFinalGrade() {
+            const assignments = document.querySelectorAll('.assignment-row');
+            const targetGrade = parseFloat(document.getElementById('targetGrade').value);
+            const finalWeight = parseFloat(document.getElementById('finalWeight').value);
+
+            if (!targetGrade || !finalWeight) {
+                alert('Please enter target grade and final exam weight');
+                return;
+            }
+
+            let totalCurrentPoints = 0;
+            let totalCurrentWeight = 0;
+            let hasValidAssignments = false;
+
+            assignments.forEach(assignment => {
+                const score = parseFloat(assignment.querySelector('.assignment-score').value);
+                const weight = parseFloat(assignment.querySelector('.assignment-weight').value);
+                
+                if (score >= 0 && weight > 0) {
+                    totalCurrentPoints += (score * weight / 100);
+                    totalCurrentWeight += weight;
+                    hasValidAssignments = true;
+                }
+            });
+
+            if (!hasValidAssignments) {
+                alert('Please enter at least one assignment with score and weight');
+                return;
+            }
+
+            const requiredFinalScore = (targetGrade - totalCurrentPoints) / (finalWeight / 100);
+
+            const resultDiv = document.getElementById('result');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const resultMessage = document.getElementById('resultMessage');
+
+            // Remove previous classes
+            resultDiv.classList.remove('success', 'warning', 'error');
+
+            let message = '';
+            if (requiredFinalScore < 0) {
+                message = '🎉 Congratulations! You already achieved your target grade! Time to relax... or aim higher!';
+                resultDiv.classList.add('success');
+                scoreDisplay.textContent = targetGrade + '%';
+            } else if (requiredFinalScore <= 60) {
+                message = `on your final exam to reach ${targetGrade}%. Totally doable! 😎`;
+                scoreDisplay.textContent = Math.round(requiredFinalScore * 10) / 10 + '%';
+                resultDiv.classList.add('success');
+            } else if (requiredFinalScore <= 80) {
+                message = `on your final exam to reach ${targetGrade}%. Time to hit the books! 📚`;
+                scoreDisplay.textContent = Math.round(requiredFinalScore * 10) / 10 + '%';
+                resultDiv.classList.add('success');
+            } else if (requiredFinalScore <= 95) {
+                message = `on your final exam to reach ${targetGrade}%. Challenge accepted! 💪`;
+                scoreDisplay.textContent = Math.round(requiredFinalScore * 10) / 10 + '%';
+                resultDiv.classList.add('warning');
+            } else if (requiredFinalScore <= 100) {
+                message = `on your final exam to reach ${targetGrade}%. You got this, but it's crunch time! ⚡`;
+                scoreDisplay.textContent = Math.round(requiredFinalScore * 10) / 10 + '%';
+                resultDiv.classList.add('warning');
+            } else {
+                message = '😅 Sorry, even a perfect score won\'t get you there. Maybe talk to your professor about extra credit?';
+                scoreDisplay.textContent = Math.round(requiredFinalScore * 10) / 10 + '%';
+                resultDiv.classList.add('error');
+            }
+
+            resultMessage.textContent = message;
+            resultDiv.classList.add('show');
+        }
+
+        // Pre-fill sample data
+        window.onload = function() {
+            const firstName = document.querySelector('.assignment-name');
+            const firstScore = document.querySelector('.assignment-score');
+            const firstWeight = document.querySelector('.assignment-weight');
+            
+            firstName.value = 'Midterm Exam';
+            firstScore.value = '78';
+            firstWeight.value = '40';
+            
+            document.getElementById('targetGrade').value = '85';
+            document.getElementById('finalWeight').value = '35';
+        };
+    </script>
+</body>
+</html>
